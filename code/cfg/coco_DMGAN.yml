@@ -26,6 +26,7 @@ TRAIN:
         GAMMA2: 5.0
         GAMMA3: 10.0  # 10good 1&100bad
         LAMBDA: 50.0
+    MS_LAMBDA: 1.5
 
 
 GAN:

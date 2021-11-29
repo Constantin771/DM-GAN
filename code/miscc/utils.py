@@ -32,7 +32,7 @@ def drawCaption(convas, captions, ixtoword, vis_size, off1=2, off2=2):
     img_txt = Image.fromarray(convas)
     # get a font
     # fnt = None  # ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 50)
-    fnt = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 50)
+    fnt = ImageFont.load_default()#truetype('Pillow/Tests/fonts/FreeMono.ttf', 50)
     # get a drawing context
     d = ImageDraw.Draw(img_txt)
     sentence_list = []
@@ -239,6 +239,8 @@ def build_super_images2(real_imgs, captions, cap_lens, ixtoword,
             one_map = row_beforeNorm[j]
             one_map *= 255
             #
+            print("image", np.uint8(img).shape)
+            print("att", np.uint8(one_map).shape)
             PIL_im = Image.fromarray(np.uint8(img))
             PIL_att = Image.fromarray(np.uint8(one_map))
             merged = \
@@ -289,9 +291,9 @@ def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
         #print(m.state_dict().keys())
-        if m.state_dict().keys()[0] == 'weight':
+        if list(m.state_dict().keys())[0] == 'weight':
             nn.init.orthogonal_(m.weight.data, 1.0)
-        elif m.state_dict().keys()[3] == 'weight_bar':
+        elif list(m.state_dict().keys())[3] == 'weight_bar':
             nn.init.orthogonal_(m.weight_bar.data, 1.0)
         #nn.init.orthogonal(m.weight.data, 1.0)
     elif classname.find('BatchNorm') != -1:
